@@ -11,6 +11,9 @@ class AppImages {
   static const String password = "assets/svg/password.svg";
   static const String passwordRed = "assets/svg/password_red.svg";
   static const String logo2 = "assets/svg/logo2.svg";
+  static const String home = "assets/svg/home.svg";
+  static const String shop = "assets/svg/shop.svg";
+  static const String profile = "assets/svg/profile.svg";
 
   // lottie
   static const String lottie = "assets/lotties/signup.json";
