@@ -1,10 +1,26 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mega_bazar/providers/auth_provider.dart';
 import 'package:mega_bazar/ui/home/home_screen.dart';
+import 'package:mega_bazar/ui/splash/splash_screen.dart';
+import 'package:provider/provider.dart';
 
 
 Future<void> main()async {
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => AuthProvider(),
+          lazy: true,
+        ),
+      ],
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -25,7 +41,7 @@ class MyApp extends StatelessWidget {
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
             useMaterial3: true,
           ),
-          home: const HomeScreen(),
+          home: const SplashScreen(),
         );
       },
     );
