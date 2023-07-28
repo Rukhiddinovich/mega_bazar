@@ -2,7 +2,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mega_bazar/data/firebase/auth_service.dart';
+import 'package:mega_bazar/data/firebase/profile_service.dart';
 import 'package:mega_bazar/providers/auth_provider.dart';
+import 'package:mega_bazar/providers/profile_provider.dart';
 import 'package:mega_bazar/ui/splash/splash_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -17,6 +19,8 @@ Future<void> main()async {
           create: (context) => AuthProvider(firebaseServices: AuthService()),
           lazy: true,
         ),
+        ChangeNotifierProvider(create: (context)=>ProfileProvider(profileService: ProfileService()),
+        lazy: true,)
       ],
       child: const MyApp(),
     ),

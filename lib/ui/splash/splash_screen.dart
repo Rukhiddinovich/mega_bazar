@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mega_bazar/ui/auth/signup_page.dart';
+import 'package:mega_bazar/app/app.dart';
 import 'package:mega_bazar/util/colors.dart';
 import 'package:mega_bazar/util/icons.dart';
 
@@ -21,7 +21,7 @@ class _SplashScreenState extends State<SplashScreen> {
         context,
         MaterialPageRoute(
           builder: (context) {
-            return const SignUpPage();
+            return const App();
           },
         ),
       );
@@ -52,6 +52,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   fontSize: 24.sp,
                   color: Colors.white),
             ),
+            // Lottie.asset(AppImages.splash)
           ],
         ),
       ),

@@ -12,9 +12,13 @@ class AppImages {
   static const String passwordRed = "assets/svg/password_red.svg";
   static const String logo2 = "assets/svg/logo2.svg";
   static const String home = "assets/svg/home.svg";
+  static const String homeActive = "assets/svg/homeActive.svg";
   static const String shop = "assets/svg/shop.svg";
+  static const String shopActive = "assets/svg/shopActive.svg";
   static const String profile = "assets/svg/profile.svg";
+  static const String profileActive = "assets/svg/profileActive.svg";
 
   // lottie
   static const String lottie = "assets/lotties/signup.json";
+  static const String splash = "assets/lotties/splash.json";
 }
