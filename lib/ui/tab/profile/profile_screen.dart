@@ -35,7 +35,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             onPressed: () {
               context.read<AuthProvider>().logOutUser(context);
             },
-            icon: const Icon(Icons.logout),
+            icon: const Icon(Icons.logout,color: Colors.white),
           ),
         ],
         centerTitle: true,
@@ -43,11 +43,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
       backgroundColor: AppColors.white,
       body: ListView(
         children: [
-          Center(
-            child: Column(
-              children: [
-                SizedBox(height: 50.h),
-                Text(
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: 50.h),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.w),
+                child: Text(
                   "Email: ${user?.email ?? "Empty"}",
                   style: TextStyle(
                       fontFamily: "Poppins",
@@ -55,8 +57,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       fontWeight: FontWeight.w500,
                       color: Colors.black),
                 ),
-                SizedBox(height: 5.h),
-                Text(
+              ),
+              SizedBox(height: 5.h),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.w),
+                child: Text(
                   "Full Name: ${user?.displayName ?? "Empty"}",
                   style: TextStyle(
                       fontFamily: "Poppins",
@@ -64,8 +69,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       fontWeight: FontWeight.w500,
                       color: Colors.black),
                 ),
-                SizedBox(height: 5.h),
-                Text(
+              ),
+              SizedBox(height: 5.h),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.w),
+                child: Text(
                   "Phone Number: ${user?.phoneNumber ?? "Empty"}",
                   style: TextStyle(
                       fontFamily: "Poppins",
@@ -73,34 +81,39 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       fontWeight: FontWeight.w500,
                       color: Colors.black),
                 ),
-                SizedBox(height: 10.h),
-                GlobalTextField(
-                    hintText: "Change Email",
-                    keyboardType: TextInputType.emailAddress,
-                    textInputAction: TextInputAction.next,
-                    textAlign: TextAlign.start,
-                    controller: context.read<ProfileProvider>().emailController),
-                SizedBox(height: 10.h),
-                GlobalTextField(
-                    hintText: "Change Full Name",
-                    keyboardType: TextInputType.name,
-                    textInputAction: TextInputAction.next,
-                    textAlign: TextAlign.start,
-                    controller: context.read<ProfileProvider>().nameController),
-                SizedBox(height: 10.h),
-                GlobalTextField(
-                    hintText: "Change Phone Number",
-                    keyboardType: TextInputType.phone,
-                    textInputAction: TextInputAction.done,
-                    textAlign: TextAlign.start,
-                    controller: context.read<ProfileProvider>().phoneController),
-                SizedBox(height: 20.h),
-                SizedBox(
+              ),
+              SizedBox(height: 10.h),
+              GlobalTextField(
+                  hintText: "Change Email",
+                  keyboardType: TextInputType.emailAddress,
+                  textInputAction: TextInputAction.next,
+                  textAlign: TextAlign.start,
+                  controller: context.read<ProfileProvider>().emailController),
+              SizedBox(height: 10.h),
+              GlobalTextField(
+                  hintText: "Change Full Name",
+                  keyboardType: TextInputType.name,
+                  textInputAction: TextInputAction.next,
+                  textAlign: TextAlign.start,
+                  controller: context.read<ProfileProvider>().nameController),
+              SizedBox(height: 10.h),
+              GlobalTextField(
+                  hintText: "Change Phone Number",
+                  keyboardType: TextInputType.phone,
+                  textInputAction: TextInputAction.done,
+                  textAlign: TextAlign.start,
+                  controller: context.read<ProfileProvider>().phoneController),
+              SizedBox(height: 20.h),
+              Center(
+                child: SizedBox(
                   width: 200.w,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(backgroundColor: AppColors.C_40BFFF),
                     onPressed: () {
-
+                      context.read<ProfileProvider>().updateEmail(context);
+                      context
+                          .read<ProfileProvider>()
+                          .updateUserDisplayName(context);
                     },
                     child: Center(
                       child: Text(
@@ -114,8 +127,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ],
       ),

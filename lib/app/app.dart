@@ -20,7 +20,6 @@ class App extends StatelessWidget {
           if (snapshot.hasError) {
             return Center(child: Text(snapshot.error.toString()));
           } else if (snapshot.data == null) {
-            print(snapshot.data);
             return const AuthScreen();
           } else {
             return const TabBox();
