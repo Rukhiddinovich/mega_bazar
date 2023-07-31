@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:mega_bazar/providers/auth_provider.dart';
-import 'package:mega_bazar/ui/auth/sign_login/signup_page.dart';
 import 'package:mega_bazar/ui/auth/widgets/global_text_fields.dart';
 import 'package:mega_bazar/util/icons.dart';
 import 'package:provider/provider.dart';
@@ -10,9 +9,17 @@ import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
 import '../../../util/colors.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({super.key, required this.onChanged});
+
   final VoidCallback onChanged;
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  bool isVisible = false;
 
   @override
   Widget build(BuildContext context) {
@@ -52,16 +59,74 @@ class LoginPage extends StatelessWidget {
                   keyboardType: TextInputType.emailAddress,
                   textInputAction: TextInputAction.done,
                   textAlign: TextAlign.start,
-                  controller:
-                  context.read<AuthProvider>().emailController),
+                  controller: context.read<AuthProvider>().emailController),
               SizedBox(height: 8.h),
-              GlobalTextField(
-                  hintText: "Password",
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.w),
+                child: TextField(
                   keyboardType: TextInputType.visiblePassword,
                   textInputAction: TextInputAction.done,
-                  textAlign: TextAlign.start,
-                  controller:
-                  context.read<AuthProvider>().passwordController),
+                  obscureText: TextInputType.visiblePassword ==
+                      TextInputType.visiblePassword
+                      ? !isVisible
+                      : false,
+                  decoration: InputDecoration(
+                    hintText: "Password",
+                    hintStyle:TextStyle(
+                        fontSize: 15.sp,
+                        fontWeight: FontWeight.w400,
+                        color: AppColors.C_9098B1,
+                        fontFamily: "Poppins"),
+                    suffixIcon: TextInputType.visiblePassword ==
+                            TextInputType.visiblePassword
+                        ? IconButton(
+                            splashRadius: 1,
+                            icon: Icon(
+                              isVisible ? Icons.visibility : Icons.visibility_off,
+                              color: Colors.grey,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                isVisible = !isVisible;
+                              });
+                            },
+                          )
+                        : null,
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5.r),
+                      borderSide: BorderSide(width: 1.w, color: AppColors.C_40BFFF),
+                    ),
+                    disabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5.r),
+                      borderSide: BorderSide(
+                        width: 1.w,
+                        color: AppColors.C_40BFFF,
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5.r),
+                      borderSide: BorderSide(
+                        width: 1.w,
+                        color: Colors.green,
+                      ),
+                    ),
+                    errorBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5.r),
+                      borderSide: BorderSide(
+                        width: 1.w,
+                        color: Colors.red,
+                      ),
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5.r),
+                      borderSide: BorderSide(
+                        width: 1.w,
+                        color: AppColors.C_40BFFF,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
               SizedBox(height: 16.h),
               ZoomTapAnimation(
                 onTap: () {
@@ -99,7 +164,7 @@ class LoginPage extends StatelessWidget {
                   ),
                   ZoomTapAnimation(
                     onTap: () {
-                      onChanged.call();
+                      widget.onChanged.call();
                       context.read<AuthProvider>().signUpButtonPressed();
                     },
                     child: Text(
@@ -118,4 +183,5 @@ class LoginPage extends StatelessWidget {
         ),
       ],
     );
-}}
+  }
+}
