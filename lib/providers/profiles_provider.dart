@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../data/firebase/profile_service.dart';
 import '../data/model/universal_data.dart';
+import '../util/ui_utils/loading_dialog.dart';
 
 class ProfileProvider with ChangeNotifier {
   ProfileProvider({required this.profileService}) {
@@ -17,18 +18,11 @@ class ProfileProvider with ChangeNotifier {
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
 
-  bool isLoading = false;
 
   User? currentUser;
 
-  notify(bool value) {
-    isLoading = value;
-    notifyListeners();
-  }
-
   showMessage(BuildContext context, String error) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(error)));
-    isLoading = false;
     notifyListeners();
   }
 
@@ -39,21 +33,44 @@ class ProfileProvider with ChangeNotifier {
     });
   }
 
-  updateUserDisplayName(BuildContext context) {
+  Future<void> updateUsername(
+      BuildContext context,
+      ) async {
     String name = nameController.text;
-    if (name.isNotEmpty) {
-      FirebaseAuth.instance.currentUser?.updateDisplayName(name);
+
+    showLoading(context: context);
+    UniversalData universalData =
+    await profileService.updateUserName(username: name);
+    notifyListeners();
+    if (context.mounted) {
+      hideLoading(dialogContext: context);
+    }
+    if (universalData.error.isEmpty) {
+      if (context.mounted) {
+        showMessage(context, universalData.data as String);
+      }
     } else {
-      showMessage(context, "Username empty");
+      if (context.mounted) {
+        showMessage(context, universalData.error);
+      }
     }
   }
 
-  updateUserImage(BuildContext context) {
-    String photoUrl = "nameController.text";
-    if (photoUrl.isNotEmpty) {
-      FirebaseAuth.instance.currentUser?.updatePhotoURL(photoUrl);
+  Future<void> updateUserImage(BuildContext context, String imagePath) async {
+    showLoading(context: context);
+    UniversalData universalData =
+    await profileService.updateUserImage(imagePath: imagePath);
+    if (context.mounted) {
+      hideLoading(dialogContext: context);
+    }
+    if (universalData.error.isEmpty) {
+      if (context.mounted) {
+        showMessage(context, universalData.data as String);
+      }
     } else {
-      showMessage(context, "Username empty");
+      if (context.mounted) {
+        showMessage(context, universalData.error);
+      }
     }
   }
 
@@ -61,10 +78,12 @@ class ProfileProvider with ChangeNotifier {
     String email = emailController.text;
 
     if (email.isNotEmpty) {
-      notify(true);
+      showLoading(context: context);
       UniversalData universalData =
       await profileService.updateUserEmail(email: email);
-      notify(false);
+      if (context.mounted) {
+        hideLoading(dialogContext: context);
+      }
       if (universalData.error.isEmpty) {
         if (context.mounted) {
           showMessage(context, universalData.data as String);

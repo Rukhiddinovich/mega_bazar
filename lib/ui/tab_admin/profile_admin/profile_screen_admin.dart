@@ -1,21 +1,21 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mega_bazar/providers/profile_provider.dart';
 import 'package:mega_bazar/ui/auth/widgets/global_text_fields.dart';
 import 'package:mega_bazar/util/colors.dart';
 import 'package:provider/provider.dart';
 
 import '../../../providers/auth_provider.dart';
+import '../../../providers/profiles_provider.dart';
 
-class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key});
+class ProfileScreenAmin extends StatefulWidget {
+  const ProfileScreenAmin({super.key});
 
   @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
+  State<ProfileScreenAmin> createState() => _ProfileScreenAminState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _ProfileScreenAminState extends State<ProfileScreenAmin> {
   @override
   Widget build(BuildContext context) {
     User? user = context.read<ProfileProvider>().currentUser;
@@ -23,7 +23,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       appBar: AppBar(
         backgroundColor: AppColors.C_40BFFF,
         title: Text(
-          "Profile Screen",
+          "Profile Screen Admin",
           style: TextStyle(
               fontFamily: "Poppins",
               fontSize: 20.sp,
@@ -35,7 +35,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             onPressed: () {
               context.read<AuthProvider>().logOutUser(context);
             },
-            icon: const Icon(Icons.logout,color: Colors.white),
+            icon: const Icon(Icons.logout, color: Colors.white),
           ),
         ],
         centerTitle: true,
@@ -108,12 +108,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 child: SizedBox(
                   width: 200.w,
                   child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(backgroundColor: AppColors.C_40BFFF),
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.C_40BFFF),
                     onPressed: () {
                       context.read<ProfileProvider>().updateEmail(context);
-                      context
-                          .read<ProfileProvider>()
-                          .updateUserDisplayName(context);
+                      context.read<ProfileProvider>().updateUsername(context);
                     },
                     child: Center(
                       child: Text(

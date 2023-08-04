@@ -12,6 +12,8 @@ class GlobalTextField extends StatelessWidget {
     required this.textAlign,
     this.obscureText = false,
     required this.controller,
+    this.digit=false,
+    this.isDescription=false,
   }) : super(key: key);
 
   final String hintText;
@@ -20,6 +22,8 @@ class GlobalTextField extends StatelessWidget {
   TextAlign textAlign;
   final bool obscureText;
   final TextEditingController controller;
+  final bool digit;
+  final bool isDescription;
 
   @override
   Widget build(BuildContext context) {
