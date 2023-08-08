@@ -25,13 +25,13 @@ class ChatScreen extends StatelessWidget {
               fontSize: 20.sp),
         ),
         centerTitle: true,
-        actions: [
-          IconButton(
-              onPressed: () {
-                context.read<LoginProvider>().logOut(context);
-              },
-              icon: const Icon(Icons.logout, color: Colors.white))
-        ],
+        // actions: [
+        //   IconButton(
+        //       onPressed: () {
+        //         context.read<LoginProvider>().logOut(context);
+        //       },
+        //       icon: const Icon(Icons.logout, color: Colors.white))
+        // ],
       ),
       body: Container(
         padding: const EdgeInsets.all(8),

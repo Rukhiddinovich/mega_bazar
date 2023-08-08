@@ -4,10 +4,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mega_bazar/chat_app/provider/login_provider.dart';
 import 'package:mega_bazar/chat_app/service/chat_service.dart';
 import 'package:mega_bazar/data/firebase/auth_service.dart';
+import 'package:mega_bazar/data/firebase/order_service.dart';
 import 'package:mega_bazar/data/firebase/product_service.dart';
 import 'package:mega_bazar/data/firebase/profile_service.dart';
 import 'package:mega_bazar/providers/auth_provider.dart';
 import 'package:mega_bazar/providers/category_provider.dart';
+import 'package:mega_bazar/providers/order_provider.dart';
 import 'package:mega_bazar/providers/product_provider.dart';
 import 'package:mega_bazar/providers/profiles_provider.dart';
 import 'package:mega_bazar/ui/splash/splash_screen.dart';
@@ -48,7 +50,11 @@ Future<void> main() async {
         ChangeNotifierProvider(
           create: (context) => LoginProvider(),
           lazy: true,
-        )
+        ),
+        ChangeNotifierProvider(
+          create: (context) => OrderProvider(orderService: OrderService()),
+          lazy: true,
+        ),
       ],
       child: const MyApp(),
     ),

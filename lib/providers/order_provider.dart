@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../data/firebase/order_service.dart';
 import '../data/model/order/order_model.dart';
+import '../data/model/product/product_model.dart';
 import '../data/model/universal_data.dart';
 import '../util/ui_utils/loading_dialog.dart';
 
@@ -13,6 +14,32 @@ class OrderProvider with ChangeNotifier {
 
   final OrderService orderService;
   List<OrderModel> userOrders = [];
+
+
+  Future<ProductModel> getItem({required BuildContext context,required OrderModel orderModel})async{
+    showLoading(context: context);
+    ProductModel productModel = (FirebaseFirestore.instance
+        .collection("products")
+        .where("productId", isEqualTo: orderModel.productId)
+        .snapshots()
+        .map(
+            (event1) => event1.docs
+            .map((doc) => ProductModel.fromJson(doc.data()))) as ProductModel);
+    if(context.mounted){
+      hideLoading(dialogContext: context);
+    }
+    return productModel;
+  }
+
+
+  int  getOrdersPrice(){
+    int summa = 0;
+    for(var element in userOrders){
+      summa+=element.totalPrice;
+    }
+    notifyListeners();
+    return summa;
+  }
 
   Future<void> addOrder({
     required BuildContext context,
@@ -28,7 +55,7 @@ class OrderProvider with ChangeNotifier {
       oldOrderModel = oldOrderModel.copWith(
           count: orderModel.count + oldOrderModel.count,
           totalPrice:
-              (orderModel.count + oldOrderModel.count) * orderModel.totalPrice);
+          (orderModel.count + oldOrderModel.count) * orderModel.totalPrice);
     }
 
     showLoading(context: context);
@@ -58,7 +85,7 @@ class OrderProvider with ChangeNotifier {
     showLoading(context: context);
 
     UniversalData universalData =
-        await orderService.updateOrder(orderModel: orderModel);
+    await orderService.updateOrder(orderModel: orderModel);
 
     if (context.mounted) {
       hideLoading(dialogContext: context);
@@ -80,7 +107,7 @@ class OrderProvider with ChangeNotifier {
   }) async {
     showLoading(context: context);
     UniversalData universalData =
-        await orderService.deleteOrder(orderId: orderId);
+    await orderService.deleteOrder(orderId: orderId);
     if (context.mounted) {
       hideLoading(dialogContext: context);
     }
@@ -99,9 +126,9 @@ class OrderProvider with ChangeNotifier {
     if (uid == null) {
       yield* FirebaseFirestore.instance.collection("orders").snapshots().map(
             (event1) => event1.docs
-                .map((doc) => OrderModel.fromJson(doc.data()))
-                .toList(),
-          );
+            .map((doc) => OrderModel.fromJson(doc.data()))
+            .toList(),
+      );
     } else {
       yield* FirebaseFirestore.instance
           .collection("orders")
@@ -109,9 +136,9 @@ class OrderProvider with ChangeNotifier {
           .snapshots()
           .map(
             (event1) => event1.docs
-                .map((doc) => OrderModel.fromJson(doc.data()))
-                .toList(),
-          );
+            .map((doc) => OrderModel.fromJson(doc.data()))
+            .toList(),
+      );
     }
   }
 

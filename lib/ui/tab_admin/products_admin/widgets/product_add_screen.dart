@@ -1,14 +1,14 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mega_bazar/util/colors.dart';
 import 'package:provider/provider.dart';
-
 import '../../../../data/model/category/category_model.dart';
 import '../../../../data/model/product/product_model.dart';
 import '../../../../providers/category_provider.dart';
 import '../../../../providers/product_provider.dart';
-import '../../../../util/constants.dart';
 import '../../../auth/widgets/global_button.dart';
 import '../../../auth/widgets/global_text_fields.dart';
 
@@ -23,7 +23,6 @@ class ProductAddScreen extends StatefulWidget {
 
 class _ProductAddScreenState extends State<ProductAddScreen> {
   ImagePicker picker = ImagePicker();
-  String imagePath = defaultImageConstant;
 
   void showBottomSheetDialog() {
     showModalBottomSheet(
@@ -34,7 +33,7 @@ class _ProductAddScreenState extends State<ProductAddScreen> {
           padding: EdgeInsets.all(24.r),
           height: 200.h,
           decoration: BoxDecoration(
-            color: AppColors.C_40BFFF,
+            color: Colors.green,
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(16.r),
               topRight: Radius.circular(16.r),
@@ -44,35 +43,19 @@ class _ProductAddScreenState extends State<ProductAddScreen> {
             children: [
               ListTile(
                 onTap: () {
-                  _getFromCamera();
-                  Navigator.pop(context);
-                },
-                leading:
-                const Icon(Icons.camera_alt, color: Colors.white, size: 30),
-                title: Text(
-                  "Select from Camera",
-                  style: TextStyle(
-                      fontFamily: "Poppins",
-                      fontSize: 15.sp,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.white),
-                ),
-              ),
-              ListTile(
-                onTap: () {
                   _getFromGallery();
                   Navigator.pop(context);
                 },
-                leading: const Icon(Icons.photo, color: Colors.white, size: 30),
+                leading: const Icon(Icons.photo),
                 title: Text(
                   "Select from Gallery",
                   style: TextStyle(
-                      fontFamily: "Poppins",
-                      fontSize: 15.sp,
+                      fontSize: 18.sp,
                       fontWeight: FontWeight.w500,
+                      fontFamily: "Poppins",
                       color: Colors.white),
                 ),
-              ),
+              )
             ],
           ),
         );
@@ -80,30 +63,16 @@ class _ProductAddScreenState extends State<ProductAddScreen> {
     );
   }
 
-  Future<void> _getFromCamera() async {
-    XFile? xFile = await picker.pickImage(
-      source: ImageSource.camera,
-      maxHeight: 512,
-      maxWidth: 512,
-    );
-    if (xFile != null) {
-      setState(() {
-        imagePath = xFile.path;
-      });
-    }
-  }
-
   Future<void> _getFromGallery() async {
-    XFile? xFile = await picker.pickImage(
-      source: ImageSource.gallery,
-      maxHeight: 512,
-      maxWidth: 512,
+    List<XFile> xFiles = await picker.pickMultiImage(
+      maxHeight: 512.h,
+      maxWidth: 512.w,
     );
-    if (xFile != null) {
-      setState(() {
-        imagePath = xFile.path;
-      });
-    }
+    await Provider.of<ProductsProvider>(context, listen: false)
+        .uploadProductImages(
+      context: context,
+      images: xFiles,
+    );
   }
 
   String currency = "";
@@ -126,10 +95,9 @@ class _ProductAddScreenState extends State<ProductAddScreen> {
           title: Text(
             widget.productModel == null ? "Product Add" : "Product Update",
             style: TextStyle(
-                fontFamily: "Poppins",
-                fontSize: 20.sp,
                 fontWeight: FontWeight.w500,
-                color: Colors.black),
+                fontSize: 20.sp,
+                fontFamily: "Poppins"),
           ),
           centerTitle: true,
           leading: IconButton(
@@ -166,6 +134,7 @@ class _ProductAddScreenState extends State<ProductAddScreen> {
                   Padding(
                     padding: EdgeInsets.all(16.r),
                     child: GlobalTextField(
+                        isDescription: true,
                         hintText: "Description",
                         keyboardType: TextInputType.text,
                         textInputAction: TextInputAction.next,
@@ -204,7 +173,7 @@ class _ProductAddScreenState extends State<ProductAddScreen> {
                   ),
                   SizedBox(height: 24.h),
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 158.w),
+                    padding: EdgeInsets.symmetric(horizontal: 157.w),
                     child: DropdownButton(
                       value: selectedCurrency,
                       icon: const Icon(Icons.keyboard_arrow_down),
@@ -214,6 +183,7 @@ class _ProductAddScreenState extends State<ProductAddScreen> {
                           child: Text(
                             items,
                             style: TextStyle(
+                                fontFamily: "Poppins",
                                 fontSize: 18.sp,
                                 color: Colors.blue,
                                 fontWeight: FontWeight.w500),
@@ -235,7 +205,7 @@ class _ProductAddScreenState extends State<ProductAddScreen> {
                       if (snapshot.hasData) {
                         return snapshot.data!.isNotEmpty
                             ? SizedBox(
-                                height: 70.h,
+                                height: 100.h,
                                 child: ListView(
                                   scrollDirection: Axis.horizontal,
                                   children: List.generate(
@@ -257,11 +227,11 @@ class _ProductAddScreenState extends State<ProductAddScreen> {
                                             color: selectedCategoryId ==
                                                     categoryModel.categoryId
                                                 ? Colors.green
-                                                : AppColors.C_40BFFF,
+                                                : Colors.white,
                                           ),
-                                          height: 70.h,
-                                          margin: EdgeInsets.all(12.r),
-                                          padding: EdgeInsets.symmetric(horizontal: 10.w),
+                                          height: 100.h,
+                                          margin: EdgeInsets.all(16.r),
+                                          padding: EdgeInsets.all(16.r),
                                           child: Center(
                                             child: Text(
                                               categoryModel.categoryName,
@@ -269,7 +239,7 @@ class _ProductAddScreenState extends State<ProductAddScreen> {
                                                 color: selectedCategoryId ==
                                                         categoryModel.categoryId
                                                     ? Colors.white
-                                                    : Colors.white,
+                                                    : Colors.black,
                                               ),
                                             ),
                                           ),
@@ -281,45 +251,53 @@ class _ProductAddScreenState extends State<ProductAddScreen> {
                               )
                             : Center(
                                 child: Text(
-                                  "Empty!",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 20.sp,
-                                      fontFamily: "Poppins",
-                                      color: Colors.black),
-                                ),
-                              );
+                                "Empty!",
+                                style: TextStyle(
+                                    fontFamily: "Poppins",
+                                    fontSize: 20.sp,
+                                    fontWeight: FontWeight.w500),
+                              ));
                       }
                       if (snapshot.hasError) {
                         return Center(
-                          child: Text(snapshot.error.toString()),
+                          child: Text(
+                            snapshot.error.toString(),
+                            style: TextStyle(
+                                fontFamily: "Poppins",
+                                fontSize: 20.sp,
+                                fontWeight: FontWeight.w500),
+                          ),
                         );
                       }
-                      return const Center(child: CircularProgressIndicator());
+                      return Center(child: CupertinoActivityIndicator(
+                        radius: 20.r,
+                      ),);
                     },
                   ),
                   SizedBox(height: 24.h),
                   context.watch<ProductsProvider>().uploadedImagesUrls.isEmpty
-                      ? Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 90.w),
-                        child: TextButton(
+                      ? Container(
+                          padding: EdgeInsets.all(20.r),
+                          height: 80.h,
+                          child: TextButton(
                             onPressed: () {
                               showBottomSheetDialog();
                             },
                             style: TextButton.styleFrom(
                                 backgroundColor: AppColors.C_40BFFF),
-                            child: Text(
-                              "Select Image",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 15.sp,
-                                  fontFamily: "Poppins",
-                                  color: Colors.white),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
+                            child: Center(
+                              child: Text(
+                                "Select Image",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 18.sp,
+                                    fontFamily: "Poppins"),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
                             ),
                           ),
-                      )
+                        )
                       : SizedBox(
                           height: 100.h,
                           child: ListView(
@@ -362,14 +340,13 @@ class _ProductAddScreenState extends State<ProductAddScreen> {
                         showBottomSheetDialog();
                       },
                       style: TextButton.styleFrom(
-                          backgroundColor: Theme.of(context).indicatorColor),
+                          backgroundColor: AppColors.C_40BFFF),
                       child: Text(
                         "Select Image",
                         style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 20.sp,
+                            color: Colors.white,
                             fontFamily: "Poppins",
-                            color: Colors.white),
+                            fontSize: 18.sp),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -380,45 +357,45 @@ class _ProductAddScreenState extends State<ProductAddScreen> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 40.w),
+              padding: EdgeInsets.all(16.r),
               child: GlobalButton(
-                  title: widget.productModel == null
-                      ? "Add product"
-                      : "Update product",
-                  onTap: () {
-                    if (context
-                            .read<ProductsProvider>()
-                            .uploadedImagesUrls
-                            .isNotEmpty &&
-                        selectedCategoryId.isNotEmpty) {
-                      context.read<ProductsProvider>().addProduct(
-                            context: context,
-                            categoryId: selectedCategoryId,
-                            productCurrency: selectedCurrency,
-                          );
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          duration: const Duration(milliseconds: 500),
-                          backgroundColor: Colors.red,
-                          margin: EdgeInsets.symmetric(
-                            vertical: 100.h,
-                            horizontal: 20.w,
-                          ),
-                          behavior: SnackBarBehavior.floating,
-                          content: Text(
-                            "The information is incomplete!!!",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w500,
-                              fontSize: 15.sp,
-                              fontFamily: "Poppins"
-                            ),
+                title: widget.productModel == null
+                    ? "Add product"
+                    : "Update product",
+                onTap: () {
+                  if (context
+                          .read<ProductsProvider>()
+                          .uploadedImagesUrls
+                          .isNotEmpty &&
+                      selectedCategoryId.isNotEmpty) {
+                    context.read<ProductsProvider>().addProduct(
+                          context: context,
+                          categoryId: selectedCategoryId,
+                          productCurrency: selectedCurrency,
+                        );
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        duration: const Duration(milliseconds: 500),
+                        backgroundColor: Colors.red,
+                        margin: EdgeInsets.symmetric(
+                          vertical: 100.h,
+                          horizontal: 20.w,
+                        ),
+                        behavior: SnackBarBehavior.floating,
+                        content: Text(
+                          "The information is incomplete!!!",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 15.sp,
                           ),
                         ),
-                      );
-                    }
-                  }),
+                      ),
+                    );
+                  }
+                },
+              ),
             ),
             SizedBox(height: 20.h)
           ],

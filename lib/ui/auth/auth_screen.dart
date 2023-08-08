@@ -1,8 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mega_bazar/ui/auth/sign_login/login_page.dart';
 import 'package:mega_bazar/ui/auth/sign_login/signup_page.dart';
 import 'package:provider/provider.dart';
-
 import '../../providers/auth_provider.dart';
 
 class AuthScreen extends StatefulWidget {
@@ -38,9 +39,11 @@ class _AuthScreenState extends State<AuthScreen> {
                 ),
           Visibility(
             visible: context.watch<AuthProvider>().isLoading,
-            child: const Align(
+            child: Align(
               alignment: Alignment.center,
-              child: CircularProgressIndicator(),
+              child: CupertinoActivityIndicator(
+                radius: 20.r,
+              ),
             ),
           )
         ],

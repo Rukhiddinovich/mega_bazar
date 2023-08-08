@@ -1,12 +1,11 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:mega_bazar/ui/tab_client/category_client/category_screen_client.dart';
 import 'package:mega_bazar/ui/tab_client/product_client/product_screen_client.dart';
 import 'package:mega_bazar/ui/tab_client/profile_client/profile_screen_client.dart';
 import 'package:mega_bazar/util/colors.dart';
-import 'package:mega_bazar/util/icons.dart';
+import 'orders_client/orders_screen_client.dart';
 
 class TabBoxClient extends StatefulWidget {
   const TabBoxClient({super.key});
@@ -25,6 +24,7 @@ class _TabBoxClientState extends State<TabBoxClient> {
     screens = [
       const ProductScreenClient(),
       const CategoryScreenClient(),
+      const OrdersScreenClient(),
       const ProfileScreenClient(),
     ];
 
@@ -41,9 +41,10 @@ class _TabBoxClientState extends State<TabBoxClient> {
         buttonBackgroundColor: AppColors.C_40BFFF,
         height: 60.h,
         items: <Widget>[
-          SvgPicture.asset(AppImages.home, color: Colors.white),
-          SvgPicture.asset(AppImages.shopActive, color: Colors.white),
-          SvgPicture.asset(AppImages.profileActive, color: Colors.white),
+          Icon(Icons.home_filled, color: Colors.white, size: 24.sp),
+          Icon(Icons.shopping_bag_rounded, color: Colors.white, size: 24.sp),
+          Icon(Icons.bookmark, color: Colors.white, size: 24.sp),
+          Icon(Icons.person, color: Colors.white, size: 24.sp),
         ],
         onTap: (index) {
           setState(

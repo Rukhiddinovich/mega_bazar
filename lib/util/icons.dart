@@ -29,8 +29,13 @@ class AppImages {
   static const String manWork = "assets/svg/man_work.svg";
   static const String notification = "assets/svg/notification.svg";
   static const String womanBag = "assets/svg/woman_bag.svg";
+  static const String order = "assets/svg/order.svg";
 
   // lottie
   static const String lottie = "assets/lotties/signup.json";
   static const String splash = "assets/lotties/splash.json";
+  static const String productScreen = "assets/lotties/product_screen.json";
+  static const String orderScreen = "assets/lotties/order_screen.json";
+  static const String profileScreen = "assets/lotties/profile_screen.json";
+  static const String categoryScreen = "assets/lotties/category_screen.json";
 }

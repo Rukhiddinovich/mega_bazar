@@ -18,7 +18,6 @@ class ProfileProvider with ChangeNotifier {
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
 
-
   User? currentUser;
 
   showMessage(BuildContext context, String error) {
@@ -34,13 +33,13 @@ class ProfileProvider with ChangeNotifier {
   }
 
   Future<void> updateUsername(
-      BuildContext context,
-      ) async {
+    BuildContext context,
+  ) async {
     String name = nameController.text;
 
     showLoading(context: context);
     UniversalData universalData =
-    await profileService.updateUserName(username: name);
+        await profileService.updateUserName(username: name);
     notifyListeners();
     if (context.mounted) {
       hideLoading(dialogContext: context);
@@ -59,7 +58,7 @@ class ProfileProvider with ChangeNotifier {
   Future<void> updateUserImage(BuildContext context, String imagePath) async {
     showLoading(context: context);
     UniversalData universalData =
-    await profileService.updateUserImage(imagePath: imagePath);
+        await profileService.updateUserImage(imagePath: imagePath);
     if (context.mounted) {
       hideLoading(dialogContext: context);
     }
@@ -80,7 +79,7 @@ class ProfileProvider with ChangeNotifier {
     if (email.isNotEmpty) {
       showLoading(context: context);
       UniversalData universalData =
-      await profileService.updateUserEmail(email: email);
+          await profileService.updateUserEmail(email: email);
       if (context.mounted) {
         hideLoading(dialogContext: context);
       }
