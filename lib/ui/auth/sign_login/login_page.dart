@@ -64,6 +64,7 @@ class _LoginPageState extends State<LoginPage> {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.w),
                 child: TextField(
+                  controller: context.read<AuthProvider>().passwordController,
                   keyboardType: TextInputType.visiblePassword,
                   textInputAction: TextInputAction.done,
                   obscureText: TextInputType.visiblePassword ==

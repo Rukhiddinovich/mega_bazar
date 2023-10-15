@@ -1,14 +1,12 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:mega_bazar/util/colors.dart';
 import 'package:provider/provider.dart';
 import '../../../../data/model/category/category_model.dart';
 import '../../../../data/model/product/product_model.dart';
 import '../../../../providers/category_provider.dart';
 import '../../../../providers/product_provider.dart';
+import '../../../../util/colors.dart';
 import '../../../auth/widgets/global_button.dart';
 import '../../../auth/widgets/global_text_fields.dart';
 
@@ -23,58 +21,6 @@ class ProductAddScreen extends StatefulWidget {
 
 class _ProductAddScreenState extends State<ProductAddScreen> {
   ImagePicker picker = ImagePicker();
-
-  void showBottomSheetDialog() {
-    showModalBottomSheet(
-      backgroundColor: Colors.transparent,
-      context: context,
-      builder: (BuildContext context) {
-        return Container(
-          padding: EdgeInsets.all(24.r),
-          height: 200.h,
-          decoration: BoxDecoration(
-            color: Colors.green,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(16.r),
-              topRight: Radius.circular(16.r),
-            ),
-          ),
-          child: Column(
-            children: [
-              ListTile(
-                onTap: () {
-                  _getFromGallery();
-                  Navigator.pop(context);
-                },
-                leading: const Icon(Icons.photo),
-                title: Text(
-                  "Select from Gallery",
-                  style: TextStyle(
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.w500,
-                      fontFamily: "Poppins",
-                      color: Colors.white),
-                ),
-              )
-            ],
-          ),
-        );
-      },
-    );
-  }
-
-  Future<void> _getFromGallery() async {
-    List<XFile> xFiles = await picker.pickMultiImage(
-      maxHeight: 512.h,
-      maxWidth: 512.w,
-    );
-    await Provider.of<ProductsProvider>(context, listen: false)
-        .uploadProductImages(
-      context: context,
-      images: xFiles,
-    );
-  }
-
   String currency = "";
 
   List<String> currencies = ["UZS", "USD", "RUB"];
@@ -91,23 +37,24 @@ class _ProductAddScreenState extends State<ProductAddScreen> {
       },
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.white,
+          backgroundColor: AppColors.C_40BFFF,
           title: Text(
             widget.productModel == null ? "Product Add" : "Product Update",
             style: TextStyle(
-                fontWeight: FontWeight.w500,
-                fontSize: 20.sp,
-                fontFamily: "Poppins"),
+                fontFamily: "Poppins",
+                fontSize: 24.sp,
+                color: Colors.white,
+                fontWeight: FontWeight.w500),
           ),
           centerTitle: true,
           leading: IconButton(
             icon: const Icon(
               Icons.arrow_back_ios,
-              color: Colors.black,
+              color: Colors.white,
             ),
             onPressed: () {
-              Provider.of<ProductsProvider>(context, listen: false)
-                  .clearParameters();
+              Provider.of<CategoryProvider>(context, listen: false)
+                  .clearTexts();
               Navigator.pop(context);
             },
           ),
@@ -117,24 +64,20 @@ class _ProductAddScreenState extends State<ProductAddScreen> {
           children: [
             Expanded(
               child: ListView(
+                padding: EdgeInsets.all(16.r),
                 children: [
-                  SizedBox(height: 10.h),
-                  Padding(
-                    padding: EdgeInsets.all(16.r),
-                    child: GlobalTextField(
-                        hintText: "Product Name",
-                        keyboardType: TextInputType.emailAddress,
-                        textInputAction: TextInputAction.next,
-                        textAlign: TextAlign.start,
-                        controller: context
-                            .read<ProductsProvider>()
-                            .productNameController),
-                  ),
+                  GlobalTextField(
+                      hintText: "Product Name",
+                      keyboardType: TextInputType.emailAddress,
+                      textInputAction: TextInputAction.next,
+                      textAlign: TextAlign.start,
+                      controller: context
+                          .read<ProductsProvider>()
+                          .productNameController),
                   SizedBox(height: 24.h),
-                  Padding(
-                    padding: EdgeInsets.all(16.r),
+                  SizedBox(
+                    height: 200.h,
                     child: GlobalTextField(
-                        isDescription: true,
                         hintText: "Description",
                         keyboardType: TextInputType.text,
                         textInputAction: TextInputAction.next,
@@ -144,58 +87,45 @@ class _ProductAddScreenState extends State<ProductAddScreen> {
                             .productDescController),
                   ),
                   SizedBox(height: 24.h),
-                  Padding(
-                    padding: EdgeInsets.all(16.r),
-                    child: GlobalTextField(
-                      digit: true,
-                      hintText: "Product Count",
-                      keyboardType: TextInputType.number,
-                      textInputAction: TextInputAction.next,
-                      textAlign: TextAlign.start,
-                      controller: context
-                          .read<ProductsProvider>()
-                          .productCountController,
-                    ),
+                  GlobalTextField(
+                    hintText: "Product Count",
+                    keyboardType: TextInputType.number,
+                    textInputAction: TextInputAction.next,
+                    textAlign: TextAlign.start,
+                    controller:
+                        context.read<ProductsProvider>().productCountController,
                   ),
                   SizedBox(height: 24.h),
-                  Padding(
-                    padding: EdgeInsets.all(16.r),
-                    child: GlobalTextField(
-                      digit: true,
-                      hintText: "Product Price",
-                      keyboardType: TextInputType.number,
-                      textInputAction: TextInputAction.next,
-                      textAlign: TextAlign.start,
-                      controller: context
-                          .read<ProductsProvider>()
-                          .productPriceController,
-                    ),
+                  GlobalTextField(
+                    hintText: "Product Price",
+                    keyboardType: TextInputType.number,
+                    textInputAction: TextInputAction.next,
+                    textAlign: TextAlign.start,
+                    controller:
+                        context.read<ProductsProvider>().productPriceController,
                   ),
                   SizedBox(height: 24.h),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 157.w),
-                    child: DropdownButton(
-                      value: selectedCurrency,
-                      icon: const Icon(Icons.keyboard_arrow_down),
-                      items: currencies.map((String items) {
-                        return DropdownMenuItem(
-                          value: items,
-                          child: Text(
-                            items,
-                            style: TextStyle(
-                                fontFamily: "Poppins",
-                                fontSize: 18.sp,
-                                color: Colors.blue,
-                                fontWeight: FontWeight.w500),
-                          ),
-                        );
-                      }).toList(),
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          selectedCurrency = newValue!;
-                        });
-                      },
-                    ),
+                  DropdownButton(
+                    // Initial Value
+                    value: selectedCurrency,
+
+                    // Down Arrow Icon
+                    icon: const Icon(Icons.keyboard_arrow_down),
+
+                    // Array list of items
+                    items: currencies.map((String items) {
+                      return DropdownMenuItem(
+                        value: items,
+                        child: Text(items),
+                      );
+                    }).toList(),
+                    // After selecting the desired option,it will
+                    // change button value to selected value
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        selectedCurrency = newValue!;
+                      });
+                    },
                   ),
                   SizedBox(height: 24.h),
                   StreamBuilder<List<CategoryModel>>(
@@ -230,17 +160,20 @@ class _ProductAddScreenState extends State<ProductAddScreen> {
                                                 : Colors.white,
                                           ),
                                           height: 100.h,
-                                          margin: EdgeInsets.all(16.r),
-                                          padding: EdgeInsets.all(16.r),
+                                          margin: EdgeInsets.all(20.r),
+                                          padding: EdgeInsets.all(10.r),
                                           child: Center(
                                             child: Text(
                                               categoryModel.categoryName,
                                               style: TextStyle(
-                                                color: selectedCategoryId ==
-                                                        categoryModel.categoryId
-                                                    ? Colors.white
-                                                    : Colors.black,
-                                              ),
+                                                  color: selectedCategoryId ==
+                                                          categoryModel
+                                                              .categoryId
+                                                      ? Colors.white
+                                                      : Colors.black,
+                                                  fontFamily: "Poppins",
+                                                  fontSize: 15.sp,
+                                                  fontWeight: FontWeight.w500),
                                             ),
                                           ),
                                         ),
@@ -249,53 +182,43 @@ class _ProductAddScreenState extends State<ProductAddScreen> {
                                   ),
                                 ),
                               )
-                            : Center(
+                            : const Center(
                                 child: Text(
-                                "Empty!",
-                                style: TextStyle(
-                                    fontFamily: "Poppins",
-                                    fontSize: 20.sp,
-                                    fontWeight: FontWeight.w500),
-                              ));
+                                  "Empty!",
+                                  style: TextStyle(fontFamily: "Poppins"),
+                                ),
+                              );
                       }
                       if (snapshot.hasError) {
                         return Center(
                           child: Text(
                             snapshot.error.toString(),
                             style: TextStyle(
+                                fontSize: 18.sp,
                                 fontFamily: "Poppins",
-                                fontSize: 20.sp,
-                                fontWeight: FontWeight.w500),
+                                color: Colors.white),
                           ),
                         );
                       }
-                      return Center(child: CupertinoActivityIndicator(
-                        radius: 20.r,
-                      ),);
+                      return const Center(child: CircularProgressIndicator());
                     },
                   ),
                   SizedBox(height: 24.h),
                   context.watch<ProductsProvider>().uploadedImagesUrls.isEmpty
-                      ? Container(
-                          padding: EdgeInsets.all(20.r),
-                          height: 80.h,
-                          child: TextButton(
-                            onPressed: () {
-                              showBottomSheetDialog();
-                            },
-                            style: TextButton.styleFrom(
-                                backgroundColor: AppColors.C_40BFFF),
-                            child: Center(
-                              child: Text(
-                                "Select Image",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 18.sp,
-                                    fontFamily: "Poppins"),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
+                      ? TextButton(
+                          onPressed: () {
+                            showBottomSheetDialog();
+                          },
+                          style: TextButton.styleFrom(
+                              backgroundColor: AppColors.C_40BFFF),
+                          child: Text(
+                            "Select Image",
+                            style: TextStyle(
+                                fontSize: 18.sp,
+                                fontFamily: "Poppins",
+                                color: Colors.white),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
                         )
                       : SizedBox(
@@ -344,9 +267,10 @@ class _ProductAddScreenState extends State<ProductAddScreen> {
                       child: Text(
                         "Select Image",
                         style: TextStyle(
-                            color: Colors.white,
-                            fontFamily: "Poppins",
-                            fontSize: 18.sp),
+                            color: Colors.black,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 18.sp,
+                            fontFamily: "Poppins"),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -356,51 +280,97 @@ class _ProductAddScreenState extends State<ProductAddScreen> {
                 ],
               ),
             ),
-            Padding(
-              padding: EdgeInsets.all(16.r),
-              child: GlobalButton(
-                title: widget.productModel == null
-                    ? "Add product"
-                    : "Update product",
-                onTap: () {
-                  if (context
-                          .read<ProductsProvider>()
-                          .uploadedImagesUrls
-                          .isNotEmpty &&
-                      selectedCategoryId.isNotEmpty) {
-                    context.read<ProductsProvider>().addProduct(
-                          context: context,
-                          categoryId: selectedCategoryId,
-                          productCurrency: selectedCurrency,
-                        );
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        duration: const Duration(milliseconds: 500),
-                        backgroundColor: Colors.red,
-                        margin: EdgeInsets.symmetric(
-                          vertical: 100.h,
-                          horizontal: 20.w,
-                        ),
-                        behavior: SnackBarBehavior.floating,
-                        content: Text(
-                          "The information is incomplete!!!",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 15.sp,
-                          ),
+            GlobalButton(
+              title: widget.productModel == null
+                  ? "Add product"
+                  : "Update product",
+              onTap: () {
+                if (context
+                        .read<ProductsProvider>()
+                        .uploadedImagesUrls
+                        .isNotEmpty &&
+                    selectedCategoryId.isNotEmpty) {
+                  context.read<ProductsProvider>().addProduct(
+                        context: context,
+                        categoryId: selectedCategoryId,
+                        productCurrency: selectedCurrency,
+                      );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      duration: const Duration(milliseconds: 500),
+                      backgroundColor: Colors.red,
+                      margin: EdgeInsets.symmetric(
+                        vertical: 60.h,
+                        horizontal: 20.w,
+                      ),
+                      behavior: SnackBarBehavior.floating,
+                      content: Text(
+                        "The information is incomplete!!!",
+                        style: TextStyle(
+                          fontFamily: "Poppins",
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 15.sp,
                         ),
                       ),
-                    );
-                  }
-                },
-              ),
+                    ),
+                  );
+                }
+              },
             ),
-            SizedBox(height: 20.h)
           ],
         ),
       ),
+    );
+  }
+
+  void showBottomSheetDialog() {
+    showModalBottomSheet(
+      backgroundColor: Colors.transparent,
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          padding: EdgeInsets.all(24.r),
+          height: 200.h,
+          decoration: BoxDecoration(
+            color: AppColors.C_40BFFF,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(16.r),
+              topRight: Radius.circular(16.r),
+            ),
+          ),
+          child: Column(
+            children: [
+              ListTile(
+                onTap: () {
+                  _getFromGallery();
+                  Navigator.pop(context);
+                },
+                leading: const Icon(Icons.photo,color: Colors.white,),
+                title: Text("Select from Gallery",style: TextStyle(
+                  fontFamily: "Poppins",
+                  color: Colors.white,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 15.sp,
+                ),),
+              )
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> _getFromGallery() async {
+    List<XFile> xFiles = await picker.pickMultiImage(
+      maxHeight: 512,
+      maxWidth: 512,
+    );
+    await Provider.of<ProductsProvider>(context, listen: false)
+        .uploadProductImages(
+      context: context,
+      images: xFiles,
     );
   }
 }

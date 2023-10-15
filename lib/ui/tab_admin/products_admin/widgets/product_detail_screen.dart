@@ -31,7 +31,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           "Product",
           style: TextStyle(
               fontSize: 20.spMin,
-              color: Colors.white,
+              color: Colors.black,
               fontWeight: FontWeight.w700),
         ),
         centerTitle: true,
@@ -66,7 +66,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     widget.productModel.productName,
                     style: TextStyle(
                         fontSize: 32.spMin,
-                        color: Colors.white,
+                        color: Colors.black,
                         fontWeight: FontWeight.w700),
                   ),
                   SizedBox(
@@ -76,7 +76,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     widget.productModel.description,
                     style: TextStyle(
                         fontSize: 22.spMin,
-                        color: Colors.white,
+                        color: Colors.black,
                         fontWeight: FontWeight.w400),
                   ),
                   SizedBox(
@@ -86,7 +86,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     "Count: ${widget.productModel.count}",
                     style: TextStyle(
                         fontSize: 22.spMin,
-                        color: Colors.white,
+                        color: Colors.black,
                         fontWeight: FontWeight.w500),
                   ),
                   SizedBox(
@@ -96,7 +96,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     "Price: ${widget.productModel.price} ${widget.productModel.currency}",
                     style: TextStyle(
                         fontSize: 22.spMin,
-                        color: Colors.white,
+                        color: Colors.black,
                         fontWeight: FontWeight.w500),
                   ),
                   Row(
@@ -118,7 +118,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         count.toString(),
                         style: const TextStyle(
                             fontSize: 20,
-                            color: Colors.white,
+                            color: Colors.black,
                             fontWeight: FontWeight.w600),
                       ),
                       TextButton(
@@ -137,7 +137,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     "Total price: ${widget.productModel.price * count}.   ${widget.productModel.currency}",
                     style: const TextStyle(
                         fontSize: 18,
-                        color: Colors.white,
+                        color: Colors.black,
                         fontWeight: FontWeight.w600),
                   ),
                 ],

@@ -58,6 +58,7 @@ class _SignUpPageState extends State<SignUpPage> {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.w),
                 child: TextField(
+                  controller: context.read<AuthProvider>().passwordController,
                   keyboardType: TextInputType.visiblePassword,
                   textInputAction: TextInputAction.done,
                   obscureText: TextInputType.visiblePassword ==

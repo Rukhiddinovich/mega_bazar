@@ -31,7 +31,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.blue,
         title: Text("Product", style: TextStyle(fontSize: 20.spMin,
@@ -101,14 +101,15 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         }
                       },
                       child: const Icon(
-                        Icons.remove,
+                        Icons.remove,color: Colors.black,
                       ),
                     ),
                     Text(
                       count.toString(),
-                      style: const TextStyle(
-                          fontSize: 20,
-                          color: Colors.black,
+                      style: TextStyle(
+                        fontFamily: "Poppins",
+                          fontSize: 20.sp,
+                          color: Colors.red,
                           fontWeight: FontWeight.w600),
                     ),
                     TextButton(
@@ -119,7 +120,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             });
                           }
                         },
-                        child: const Icon(Icons.add)),
+                        child: const Icon(Icons.add,color: Colors.black,)),
                   ],
                 ),
                 Text(
@@ -127,7 +128,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       .productModel.currency}",
                   style: const TextStyle(
                       fontSize: 18,
-                      color: Colors.black,
+                      color: Colors.white,
                       fontWeight: FontWeight.w600),
                 ),
               ],
