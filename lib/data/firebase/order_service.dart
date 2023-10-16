@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../model/order/order_model.dart';
-import '../model/universal_data.dart';
+import 'package:caffelito/data/models/order/order_model.dart';
+import 'package:caffelito/data/models/universal_data.dart';
+import 'package:flutter/material.dart';
 
 class OrderService {
   Future<UniversalData> addOrder({required OrderModel orderModel}) async {
@@ -23,7 +24,7 @@ class OrderService {
   }
 
   Future<UniversalData> updateOrder({required OrderModel orderModel}) async {
-    print("INSIDE UPDATE: ${orderModel.orderId}");
+    debugPrint("INSIDE UPDATE: ${orderModel.orderId}");
     try {
       await FirebaseFirestore.instance
           .collection("orders")
@@ -48,6 +49,18 @@ class OrderService {
           .delete();
 
       return UniversalData(data: "Order deleted!");
+    } on FirebaseException catch (e) {
+      return UniversalData(error: e.code);
+    } catch (error) {
+      return UniversalData(error: error.toString());
+    }
+  }
+
+  Future<UniversalData> getAllProducts() async {
+    try {
+      FirebaseFirestore.instance.collection("order").snapshots().map((event) =>
+          event.docs.map((doc) => OrderModel.fromJson(doc.data())).toList());
+      return UniversalData(data: "Order fetched!");
     } on FirebaseException catch (e) {
       return UniversalData(error: e.code);
     } catch (error) {

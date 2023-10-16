@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:caffelito/data/models/coffee/coffee_model.dart';
+import 'package:caffelito/data/models/order/order_model.dart';
+import 'package:caffelito/data/models/universal_data.dart';
+import 'package:caffelito/utils/ui_utils/loading_dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../data/firebase/order_service.dart';
-import '../data/model/order/order_model.dart';
-import '../data/model/product/product_model.dart';
-import '../data/model/universal_data.dart';
-import '../util/ui_utils/loading_dialog.dart';
 
 class OrderProvider with ChangeNotifier {
   OrderProvider({required this.orderService}) {
@@ -16,19 +16,19 @@ class OrderProvider with ChangeNotifier {
   List<OrderModel> userOrders = [];
 
 
-  Future<ProductModel> getItem({required BuildContext context,required OrderModel orderModel})async{
+  Future<CoffeeModel> getItem({required BuildContext context,required OrderModel orderModel})async{
     showLoading(context: context);
-    ProductModel productModel = (FirebaseFirestore.instance
+    CoffeeModel coffeeModel = (FirebaseFirestore.instance
         .collection("products")
         .where("productId", isEqualTo: orderModel.productId)
         .snapshots()
         .map(
             (event1) => event1.docs
-            .map((doc) => ProductModel.fromJson(doc.data()))) as ProductModel);
+            .map((doc) => CoffeeModel.fromJson(doc.data()))) as CoffeeModel);
     if(context.mounted){
       hideLoading(dialogContext: context);
     }
-    return productModel;
+    return coffeeModel;
   }
 
 

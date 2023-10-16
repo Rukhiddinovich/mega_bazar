@@ -1,9 +1,8 @@
+import 'package:caffelito/data/models/universal_data.dart';
+import 'package:caffelito/utils/ui_utils/loading_dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
 import '../data/firebase/profile_service.dart';
-import '../data/model/universal_data.dart';
-import '../util/ui_utils/loading_dialog.dart';
 
 class ProfileProvider with ChangeNotifier {
   ProfileProvider({required this.profileService}) {

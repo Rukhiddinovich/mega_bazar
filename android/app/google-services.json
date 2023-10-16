@@ -1,36 +1,26 @@
 {
   "project_info": {
-    "project_number": "955014690522",
-    "project_id": "megabazar-10c6b",
-    "storage_bucket": "megabazar-10c6b.appspot.com"
+    "project_number": "267515885275",
+    "project_id": "caffelito-ff649",
+    "storage_bucket": "caffelito-ff649.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:955014690522:android:d6d4ba44a3bcc61cabd7e3",
+        "mobilesdk_app_id": "1:267515885275:android:245b10b01b59bcf4fcbefe",
         "android_client_info": {
-          "package_name": "uz.mega.bazar"
+          "package_name": "uz.caffelito.com"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "955014690522-ntpesei947op1g2gcs40nvhso87gnsm8.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCCxLjLmDyECfMob14IU6Q1xZA7PcBlAkI"
+          "current_key": "AIzaSyCs9MWxOjq3voC1FnyUqfJ7Jcm2d8SMe9M"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "955014690522-ntpesei947op1g2gcs40nvhso87gnsm8.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }
