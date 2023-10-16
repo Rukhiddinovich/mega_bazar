@@ -12,6 +12,8 @@ class GlobalTextField extends StatelessWidget {
     required this.textAlign,
     this.obscureText = false,
     required this.controller,
+    this.digit=false,
+    this.isDescription=false,
   }) : super(key: key);
 
   final String hintText;
@@ -20,6 +22,8 @@ class GlobalTextField extends StatelessWidget {
   TextAlign textAlign;
   final bool obscureText;
   final TextEditingController controller;
+  final bool digit;
+  final bool isDescription;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +34,7 @@ class GlobalTextField extends StatelessWidget {
             fontSize: 15.sp,
             fontWeight: FontWeight.w600,
             color: AppColors.C_223263,
-            fontFamily: "DMSans"),
+            fontFamily: "Poppins"),
         textAlign: textAlign,
         textInputAction: textInputAction,
         keyboardType: keyboardType,
@@ -44,7 +48,7 @@ class GlobalTextField extends StatelessWidget {
               fontSize: 15.sp,
               fontWeight: FontWeight.w400,
               color: AppColors.C_9098B1,
-              fontFamily: "DMSans"),
+              fontFamily: "Poppins"),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(5.r),
             borderSide: BorderSide(width: 1.w, color: AppColors.C_40BFFF),
