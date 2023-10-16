@@ -53,15 +53,13 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         width: 250.h,
                         imageUrl: widget.productModel.productImages.first,
                         placeholder: (context, url) =>
-                        const CupertinoActivityIndicator(),
+                            const CupertinoActivityIndicator(),
                         errorWidget: (context, url, error) =>
-                        const Icon(Icons.error),
+                            const Icon(Icons.error),
                       ),
                     ),
                   ),
-                  SizedBox(
-                    height: 20.h,
-                  ),
+                  SizedBox(height: 20.h),
                   Text(
                     widget.productModel.productName,
                     style: TextStyle(
@@ -69,9 +67,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         color: Colors.black,
                         fontWeight: FontWeight.w700),
                   ),
-                  SizedBox(
-                    height: 20.h,
-                  ),
+                  SizedBox(height: 20.h),
                   Text(
                     widget.productModel.description,
                     style: TextStyle(
@@ -79,9 +75,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         color: Colors.black,
                         fontWeight: FontWeight.w400),
                   ),
-                  SizedBox(
-                    height: 20.h,
-                  ),
+                  SizedBox(height: 20.h),
                   Text(
                     "Count: ${widget.productModel.count}",
                     style: TextStyle(
@@ -89,9 +83,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         color: Colors.black,
                         fontWeight: FontWeight.w500),
                   ),
-                  SizedBox(
-                    height: 20.h,
-                  ),
+                  SizedBox(height: 20.h),
                   Text(
                     "Price: ${widget.productModel.price} ${widget.productModel.currency}",
                     style: TextStyle(
@@ -110,9 +102,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             });
                           }
                         },
-                        child: const Icon(
-                          Icons.remove,
-                        ),
+                        child: const Icon(Icons.remove),
                       ),
                       Text(
                         count.toString(),
@@ -132,7 +122,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           child: const Icon(Icons.add)),
                     ],
                   ),
-
                   Text(
                     "Total price: ${widget.productModel.price * count}.   ${widget.productModel.currency}",
                     style: const TextStyle(

@@ -288,8 +288,7 @@ class _ProductAddScreenState extends State<ProductAddScreen> {
                 if (context
                         .read<ProductsProvider>()
                         .uploadedImagesUrls
-                        .isNotEmpty &&
-                    selectedCategoryId.isNotEmpty) {
+                        .isNotEmpty) {
                   context.read<ProductsProvider>().addProduct(
                         context: context,
                         categoryId: selectedCategoryId,

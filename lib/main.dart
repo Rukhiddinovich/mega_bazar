@@ -14,7 +14,6 @@ import 'package:mega_bazar/providers/product_provider.dart';
 import 'package:mega_bazar/providers/profiles_provider.dart';
 import 'package:mega_bazar/ui/splash/splash_screen.dart';
 import 'package:provider/provider.dart';
-
 import 'chat_app/provider/chat_provider.dart';
 import 'data/firebase/category_service.dart';
 

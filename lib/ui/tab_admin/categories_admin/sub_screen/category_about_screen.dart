@@ -63,54 +63,52 @@ class _CategoryAboutScreenState extends State<CategoryAboutScreen> {
                       topRight: Radius.circular(30.r),
                     ),
                     color: AppColors.C_262626),
-                child: Expanded(
-                  child: ListView(
-                    children: [
-                      SizedBox(height: 40.h),
-                      Column(
-                        crossAxisAlignment:
-                        CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Text(
-                                widget.categoryModel.categoryName,
-                                style: TextStyle(
-                                    fontWeight:
-                                    FontWeight.w600,
-                                    fontFamily: "Poppins",
-                                    fontSize: 20.sp,
-                                    color: Colors.white),
-                              ),
-                              const Spacer(),
-                              LikeButton(size: 25.r),
-                            ],
-                          ),
-                          SizedBox(height: 20.h),
-                          Center(
-                            child: Text(
-                              "Product Details",
+                child: ListView(
+                  children: [
+                    SizedBox(height: 40.h),
+                    Column(
+                      crossAxisAlignment:
+                      CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Text(
+                              widget.categoryModel.categoryName,
                               style: TextStyle(
-                                  fontWeight: FontWeight.w600,
+                                  fontWeight:
+                                  FontWeight.w600,
                                   fontFamily: "Poppins",
                                   fontSize: 20.sp,
                                   color: Colors.white),
                             ),
-                          ),
-                          SizedBox(height: 10.h),
-                          Text(
-                            widget.categoryModel.description,
+                            const Spacer(),
+                            LikeButton(size: 25.r),
+                          ],
+                        ),
+                        SizedBox(height: 20.h),
+                        Center(
+                          child: Text(
+                            "Product Details",
                             style: TextStyle(
-                                fontWeight: FontWeight.w500,
+                                fontWeight: FontWeight.w600,
                                 fontFamily: "Poppins",
-                                fontSize: 15.sp,
+                                fontSize: 20.sp,
                                 color: Colors.white),
                           ),
-                        ],
-                      ),
-                    ],
-                  ),
+                        ),
+                        SizedBox(height: 10.h),
+                        Text(
+                          widget.categoryModel.description,
+                          style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontFamily: "Poppins",
+                              fontSize: 15.sp,
+                              color: Colors.white),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
             ],
