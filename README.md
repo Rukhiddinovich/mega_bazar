@@ -1,3 +1,3 @@
-# mega_bazar
+# caffelito
 
 A new Flutter project.

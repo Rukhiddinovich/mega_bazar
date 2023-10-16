@@ -1,5 +1,5 @@
+import 'package:caffelito/data/models/universal_data.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../model/universal_data.dart';
 
 class ProfileService {
   Future<UniversalData> updateUserEmail({

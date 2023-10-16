@@ -1,83 +1,55 @@
-import 'package:firebase_core/firebase_core.dart';
+import 'package:caffelito/bloc/coffee/coffee_bloc.dart';
+import 'package:caffelito/bloc/order/order_bloc.dart';
+import 'package:caffelito/cubit/tab_box/tab_box_cubit.dart';
+import 'package:caffelito/data/firebase/coffee_service.dart';
+import 'package:caffelito/data/firebase/order_service.dart';
+import 'package:caffelito/presentation/app_routes/app_routes.dart';
+import 'package:caffelito/presentation/tab_box/tab_box.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mega_bazar/chat_app/provider/login_provider.dart';
-import 'package:mega_bazar/chat_app/service/chat_service.dart';
-import 'package:mega_bazar/data/firebase/auth_service.dart';
-import 'package:mega_bazar/data/firebase/order_service.dart';
-import 'package:mega_bazar/data/firebase/product_service.dart';
-import 'package:mega_bazar/data/firebase/profile_service.dart';
-import 'package:mega_bazar/providers/auth_provider.dart';
-import 'package:mega_bazar/providers/category_provider.dart';
-import 'package:mega_bazar/providers/order_provider.dart';
-import 'package:mega_bazar/providers/product_provider.dart';
-import 'package:mega_bazar/providers/profiles_provider.dart';
-import 'package:mega_bazar/ui/splash/splash_screen.dart';
-import 'package:provider/provider.dart';
-import 'chat_app/provider/chat_provider.dart';
-import 'data/firebase/category_service.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-          create: (context) => AuthProvider(firebaseServices: AuthService()),
-          lazy: true,
-        ),
-        ChangeNotifierProvider(
-          create: (context) =>
-              ProfileProvider(profileService: ProfileService()),
-          lazy: true,
-        ),
-        ChangeNotifierProvider(
-          create: (context) =>
-              CategoryProvider(categoryService: CategoryService()),
-          lazy: true,
-        ),
-        ChangeNotifierProvider(
-          create: (context) =>
-              ProductsProvider(productsService: ProductsService()),
-          lazy: true,
-        ),
-        ChangeNotifierProvider(
-          create: (context) => ChatProvider(ChatService()),
-          lazy: true,
-        ),
-        ChangeNotifierProvider(
-          create: (context) => LoginProvider(),
-          lazy: true,
-        ),
-        ChangeNotifierProvider(
-          create: (context) => OrderProvider(orderService: OrderService()),
-          lazy: true,
-        ),
-      ],
-      child: const MyApp(),
-    ),
-  );
+  // await Firebase.initializeApp();
+  runApp(const App());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class App extends StatelessWidget {
+  const App({super.key});
 
-  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<TabCubit>(
+            create: (context) => TabCubit(), child: TabBox()),
+        BlocProvider(
+            create: (context) => CoffeeBloc(coffeeService: CoffeeService())),
+        BlocProvider(
+            create: (context) => OrderBloc(orderService: OrderService())),
+      ],
+      child: const MainApp(),
+    );
+  }
+}
+
+class MainApp extends StatelessWidget {
+  const MainApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
       designSize: const Size(375, 812),
       minTextAdapt: true,
       splitScreenMode: true,
-      builder: (BuildContext context, Widget? child) {
-        return MaterialApp(
+      builder: (context, child) {
+        return const MaterialApp(
           debugShowCheckedModeBanner: false,
-          theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
-            useMaterial3: true,
-          ),
-          home: const SplashScreen(),
+          themeMode: ThemeMode.dark,
+          onGenerateRoute: AppRoutes.generateRoute,
+          initialRoute: RouteNames.splash,
+          // home: HomeScreen(),
         );
       },
     );
